@@ -1,7 +1,9 @@
 ---
 # vars file for hammadrauf.sudousers
-users:
-  - username: "{{ vault_vmuser1 }}"
-    password: "{{ vault_vmpwd1 }}"
-  - username: "{{ vault_vmuser2 }}"
-    password: "{{ vault_vmpwd2 }}"
+su_users:
+  - username: "{{ su_vault_vmuser1 }}"
+    password: "{{ su_vault_vmpwd1 }}"
+    is_super_user: true
+  - username: "{{ su_vault_vmuser2 }}"
+    password: "{{ su_vault_vmpwd2 }}"
+    is_super_user: false

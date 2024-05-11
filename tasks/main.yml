@@ -13,4 +13,4 @@
 - name: Repeat createuser block with loop
   ansible.builtin.include_tasks: createuser.yml
   with_items:
-    - "{{ users }}"
+    - "{{ su_users }}"

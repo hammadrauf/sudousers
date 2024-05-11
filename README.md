@@ -12,6 +12,24 @@ Role Variables
 --------------
 
 For a complete list please see defaults/main.yml.
+List of Users
+```
+su_users:
+  - username: "{{ su_vault_vmuser1 }}"
+    password: "{{ su_vault_vmpwd1 }}"
+    is_super_user: true
+  - username: "{{ su_vault_vmuser2 }}"
+    password: "{{ su_vault_vmpwd2 }}"
+    is_super_user: false
+```
+Secret User-names and Passwords should be stored in 'Secrets.yml'. Use
+ansible-vault and Password hasing. Do not commit Secrets.yml to Git/Source Control.
+```
+su_vault_vmuser1: user01
+su_vault_vmpwd1: user01
+su_vault_vmuser2: user02
+su_vault_vmpwd2: user02
+```
 
 Dependencies
 ------------

@@ -6,9 +6,20 @@
         name: "{{ item.username }}"
         password: "{{ item.password }}"
         create_home: true
-        groups: "users,mail,{{ sudo_group }}"
+        groups: "users,mail,{{ su_sudo_group }}"
         shell: /bin/bash
         expires: -1
+      when: item.is_super_user|bool
+
+    - name: "Create User {{ item.username }}."
+      ansible.builtin.user:
+        name: "{{ item.username }}"
+        password: "{{ item.password }}"
+        create_home: true
+        groups: "users,mail"
+        shell: /bin/bash
+        expires: -1
+      when: not item.is_super_user|bool
 
     - name: "Create .ssh folder for {{ item.username }}"
       ansible.builtin.file:
@@ -50,6 +61,7 @@
         path: /etc/sudoers
         line: "{{ item.username }}        ALL=(ALL)       NOPASSWD: ALL"
         validate: /usr/sbin/visudo -cf %s
+      when: item.is_super_user|bool
 
     - name: "Set Home directory ownership - {{ item.username }}"
       ansible.builtin.file:
