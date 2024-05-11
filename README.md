@@ -1,5 +1,5 @@
 Ansible Role: SudoUsers
-=====================
+=======================
 
 This role creates User Accounts from a list, with sudo previliges on Debian based OS or RHEL based OS. It will also add NOPASSWD flag so that password is not asked.
 
