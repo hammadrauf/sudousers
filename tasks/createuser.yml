@@ -1,7 +1,7 @@
 ---
 - name: "Create User  and configure sudo block - {{ item.username }}"
   block:
-    - name: "Create User {{ item.username }}."
+    - name: "Create User {{ item.username }}, if is a Super User."
       ansible.builtin.user:
         name: "{{ item.username }}"
         password: "{{ item.password }}"
@@ -11,7 +11,7 @@
         expires: -1
       when: item.is_super_user|bool
 
-    - name: "Create User {{ item.username }}."
+    - name: "Create User {{ item.username }}, if is not a Super User."
       ansible.builtin.user:
         name: "{{ item.username }}"
         password: "{{ item.password }}"
