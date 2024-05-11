@@ -1,0 +1,7 @@
+---
+# vars file for hammadrauf.sudousers
+users:
+  - username: "{{ vault_vmuser1 }}"
+    password: "{{ vault_vmpwd1 }}"
+  - username: "{{ vault_vmuser2 }}"
+    password: "{{ vault_vmpwd2 }}"
