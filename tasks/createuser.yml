@@ -69,3 +69,14 @@
         owner: "{{ item.username }}"
         group: "{{ item.username }}"
         recurse: true
+
+    - name: "Add sudo_rules - {{ item.username }}"
+      ansible.builtin.lineinfile:
+        path: /etc/sudoers
+        line: "{{ item.username }}       {{ srule }}"
+        validate: /usr/sbin/visudo -cf %s      
+      with_items:
+        - "{{ item.sudo_rules }}"
+      loop_control:
+        loop_var: srule
+        label: "{{ srule }}"         

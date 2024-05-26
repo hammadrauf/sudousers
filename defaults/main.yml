@@ -4,6 +4,10 @@ su_users:
   - username: "{{ su_vault_vmuser1 }}"
     password: "{{ su_vault_vmpwd1 }}"
     is_super_user: true
+    sudo_rules: []
   - username: "{{ su_vault_vmuser2 }}"
     password: "{{ su_vault_vmpwd2 }}"
     is_super_user: false
+    sudo_rules:
+      - "ALL=(ALL)   NOPASSWD: /usr/bin/su - {{ su_vault_vmuser1 }}"
+      - "ALL=(root)   NOPASSWD: /bin/su - {{ su_vault_vmuser1 }}"
