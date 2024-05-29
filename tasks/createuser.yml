@@ -37,6 +37,24 @@
         creates: "/home/{{ item.username }}/.ssh/authorized_keys"
       when: st.stat.exists
 
+    - name: Check if running from Terraform or other method, by checking User vagrant folder
+      ansible.builtin.stat: path=/home/terraform
+      register: stt
+
+    - name: "Copy user Public key to Authorized_keys for {{ item.username }}"
+      ansible.builtin.shell: "cat /home/terraform/.ssh/authorized.keys >> /home/{{ item.username }}/.ssh/authorized_keys"
+      args:
+        creates: "/home/{{ item.username }}/.ssh/authorized_keys"
+      when: stt.stat.exists
+
+    - name: "Set permissions for ~/.ssh/authorized_keys"
+      ansible.builtin.file:
+        path: "/home/{{ item.username }}/.ssh/authorized_keys"
+        owner: "{{ item.username }}"
+        group: "{{ item.username }}"
+        mode: "0600"
+      when: stt.stat.exists
+
     - name: Get stats of root - authorized_keys
       ansible.builtin.stat:
         path: /root/.ssh/authorized_keys
@@ -46,7 +64,7 @@
       ansible.builtin.shell: "cat /root/.ssh/authorized_keys >> /home/{{ item.username }}/.ssh/authorized_keys"
       args:
         creates: "/home/{{ item.username }}/.ssh/authorized_keys"
-      when: not st.stat.exists and stroot.stat.exists
+      when: not st.stat.exists and not stt.stat.exists and stroot.stat.exists
 
     - name: "Set permissions for ~/.ssh/authorized_keys"
       ansible.builtin.file:
@@ -54,7 +72,7 @@
         owner: "{{ item.username }}"
         group: "{{ item.username }}"
         mode: "0600"
-      when: not st.stat.exists and stroot.stat.exists
+      when: not st.stat.exists and not stt.stat.exists and stroot.stat.exists
 
     - name: "Add NOPASSWD Sudo into SUDOERS for {{ item.username }}"
       ansible.builtin.lineinfile:
