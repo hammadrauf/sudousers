@@ -42,7 +42,7 @@
       register: stt
 
     - name: "Copy user Public key to Authorized_keys for {{ item.username }}"
-      ansible.builtin.shell: "cat /home/terraform/.ssh/authorized.keys >> /home/{{ item.username }}/.ssh/authorized_keys"
+      ansible.builtin.shell: "cat /home/terraform/.ssh/authorized_keys >> /home/{{ item.username }}/.ssh/authorized_keys"
       args:
         creates: "/home/{{ item.username }}/.ssh/authorized_keys"
       when: stt.stat.exists
